@@ -15,3 +15,6 @@ class Person:
   @property
   def age(self):
     return self.__age
+  
+  def __str__(self):
+    return f"{self.__name} {self.__surname} is {self.__age} years old"

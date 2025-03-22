@@ -4,7 +4,7 @@ TODO: write me
 
 """
 from Student import Student
-from grade import Grade
+from Grade import Grade
 
 class Course:
     def __init__(self, course_id: str, course_name: str, course_credits: int,  year: int, professor: None, students: list[Student], grades: list[Grade]):
