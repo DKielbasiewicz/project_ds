@@ -21,6 +21,10 @@ class Student(Person):
   @property
   def ec(self):
     return self.__ec
+  
+  @property
+  def id(self):
+    return self.__studentid
     
   @year.setter
   #The setter works like a method of the object 
