@@ -44,7 +44,4 @@ class Grade:
         return False
     
     def __str__(self) -> str: #string representation of Grade obj
-        return f"{self._student.name} received {self._grade} in {self.course.name}" 
-        
-
-
+        return f"{self._student.name} received {self._grade} in {self.course.course_name}" 
