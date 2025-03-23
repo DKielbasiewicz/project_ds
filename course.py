@@ -17,6 +17,10 @@ class Course:
         self.__students = students              # list[Student]: list containing all the students enrolled for the course ***NOTE Only unique values
         self.__final_grades = grades            # list[Grade]: list containing all the final grades  ***NOTE Only unique values
     
+    @property
+    def get_grades(self): #getter for list of Grades
+        return self.__final_grades
+    
     def add_student(self, new_student: Student) -> None:
         if new_student.id in self.__students: # if student is enrolled for the course, i.e. is in __students
             raise Exception('') # TODO change error handling
