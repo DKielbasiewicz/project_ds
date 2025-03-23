@@ -16,8 +16,7 @@ class University:
         
     def avg_grade_course(self, chosen_course: Course):
         sum_ = 0
-        final_grades = chosen_course.get_grades()
-        print(final_grades)
+        final_grades = chosen_course.get_grades
         for final_grade in final_grades:
             sum_ += final_grade.grade
         return sum_/len(final_grades)
@@ -27,7 +26,8 @@ class University:
         sum_ = 0
         for course in all_courses:
             sum_ += self.avg_grade_course(course)
-        return sum_
+            
+        return sum_/len(all_courses)
         
     def __eq__(self, another_uni) -> bool:
         if self.avg_grade_uni() == another_uni.avg_grade_uni():
