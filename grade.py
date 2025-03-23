@@ -10,8 +10,6 @@ Grade object stores:
     Relationships:
         ...
 """
-from Student import Student
-from Course import Course
 
 class Grade:
     def __init__(self, grade: float, student: Student, course: Course):
