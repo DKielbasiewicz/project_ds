@@ -3,12 +3,12 @@ class Person:
     self.__name = name
     self.__surname = surname
     self.__age = age
-    self._gender = self.__is_gender(gender)
+    self._gender = self.__validate_gender(gender)
 
   def __str__(self):
     return f"{self.__name} {self.__surname} is {self._gender} and is {self.__age} years old"
   
-  def __is_gender(self, gender: str):
+  def __validate_gender(self, gender: str):
     if gender.lower() == "f" or gender.lower() == "female":
       return "female"
     if gender.lower() == "m" or gender.lower() == "male":
