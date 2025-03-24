@@ -1,8 +1,10 @@
 import csv
 from Student import Student
+from Professor import Professor
 class Database:
   __students_file = "students.csv"
   __courses_file = "courses.csv"
+  __employees_file = "employees.csv"
   __encoding_style = "utf-8"
 
   @classmethod
@@ -26,3 +28,9 @@ class Database:
     with open(cls.__courses_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
       writer.writerow([new_course.course_id, new_course.course_name, new_course.course_credits, new_course.year, new_course.professor, new_course.students, new_course.grades])
+
+  @classmethod
+  def save_employee(cls, new_employee: Professor):
+    with open(cls.__employees_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
+      writer = csv.writer(file)
+      writer.writerow([new_employee.name, new_employee.surname, new_employee.age, new_employee.gender, new_employee.taught_courses])
