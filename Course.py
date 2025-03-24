@@ -10,7 +10,7 @@ from Grade import Grade
 class Course:
     def __init__(self, course_id: str, course_name: str, course_credits: int,  year: int, professor: Professor, students: list[Student], grades: list[Grade]):
         self.__course_id = course_id            # str: id code for the course NOTE should be unique?
-        self.course_name = course_name          # str: name of the course
+        self.__course_name = course_name          # str: name of the course
         self.course_credits = course_credits    # int: ec of the course
         self.year = year                        # int: year var *TODO specify how to use year var*
         self._professor = professor             # Professor: object Professor assigned to the course
@@ -20,6 +20,12 @@ class Course:
     @property
     def get_grades(self): #getter for list of Grades
         return self.__final_grades
+    @property
+    def name(self):
+        return self.__course_name
+    @property
+    def course_id(self):
+        return self.__course_id
     
     def add_student(self, new_student: Student) -> None:
         if new_student.id in self.__students: # if student is enrolled for the course, i.e. is in __students
@@ -46,4 +52,4 @@ class Course:
         self.__final_grades.append(new_grade) # append grade if no grade is present in the list
     
     def __str__(self) -> str: #string representation of Course obj
-        return f"{self.course_name} (ID: {self.__course_id}), course taught by {self._professor.name}. \n[credits: {self.course_credits}, year: {self.year}, {len(self.__students)} students enlisted]"
+        return f"{self.__course_name} (ID: {self.__course_id}), course taught by {self._professor.name}. \n[credits: {self.course_credits}, year: {self.year}, {len(self.__students)} students enlisted]"
