@@ -12,7 +12,13 @@ class University:
         self.name = "UniTrack University"
         self.__available_courses = []
         self.__employees = []
-        
+        self.__students = Database.load_students()
+    
+    def add_student(self, student_name: str, student_surname: str, student_age: int, student_gender: str):
+        new_student = Student(student_name, student_surname, student_age, student_gender)
+        self.__students.append(new_student)
+        Database.save_student(new_student)
+       
     def avg_grade_course(self, chosen_course: Course):
         sum_ = 0
         final_grades = chosen_course.get_grades
@@ -44,12 +50,7 @@ class UniTrackApp:
 
   def help(self):
     print("List of commands:")
-    print("[1] - Add course")
-
-  def add_course(self, name, ec):
-    name = input("Enter name of the course: ")
-    ec = input("Number of credits: ")
-    pass
+    print("[1] - Add student")
 
   def run(self):
     while True:
