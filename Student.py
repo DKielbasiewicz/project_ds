@@ -1,5 +1,4 @@
 from Person import Person
-import Database
 import random as rnd
 
 class Student(Person):
@@ -19,6 +18,7 @@ class Student(Person):
     return f"{self.name} {self.surname} is at {self._year} year and has {self._ec} credits"
   
   def __random_student_id(self):
+    from Database import Database
     all_students = Database.load_students()
     while True:
       new_id = rnd.randint(1000000, 9999999)
@@ -50,11 +50,3 @@ class Student(Person):
 
   def add_course_grade(self, course_name, grade):
     pass
-
-
-if __name__ == "__main__":
-  student1 = Student("John", "Doe", 22, "M")
-  student2 = Student("Jane", "Doe", 22, "F")
-  student3 = Student("Johny", "Doe", 22, "M")
-  students = [student1, student2, student3]
-
