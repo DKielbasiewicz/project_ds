@@ -14,7 +14,7 @@ class Person:
     if gender.lower() == "m" or gender.lower() == "male":
       return "male"
     else:
-      raise ValueError("Error: The Person has to be either Male (M) or Female (F)")
+      raise Exception("Invalid gender: The Person has to be either Male (M) or Female (F)")
 
   @property
   def name(self):
