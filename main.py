@@ -15,8 +15,11 @@ class University:
     self.__students = Database.load_students()
   
   def add_student(self, student_name: str, student_surname: str, student_age: int, student_gender: str,):
+    # making Student object of the given variables
     new_student = Student(student_name, student_surname, student_age, student_gender)
+    # adding student to __students list
     self.__students.append(new_student)
+    # saving student information to database file "students.csv"
     Database.save_student(new_student)
       
   def avg_grade_course(self, chosen_course: Course):
@@ -66,11 +69,13 @@ class UniTrackApp:
     while True:
       gender = input("Enter student gender (M/F): ")
       try:
+        # we try to add student if it fails then it's gender string problem
+        # we give feedback and redo the loop
         self.__uniTrack.add_student(name, surname, age, gender)
         break
       except NameError as invalid_gender:
         print(invalid_gender)
-    return "Student added successfully to the University"
+    return "Student added successfully to the University\n"
         
   def run(self):
     while True:

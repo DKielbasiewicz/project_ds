@@ -8,12 +8,14 @@ class Database:
   __encoding_style = "utf-8"
 
   @classmethod
+  # it works
   def save_student(cls, new_student: Student):
     with open(cls.__students_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
       writer.writerow([new_student.name, new_student.surname, new_student.age, new_student.gender, new_student.id])
 
   @classmethod
+  # it works
   def load_students(cls):
     students = []
     with open(cls.__students_file, mode="r", encoding=cls.__encoding_style) as file:
@@ -24,12 +26,14 @@ class Database:
     return students
   
   @classmethod
+  # dose not work still need to make changes
   def save_course(cls, new_course):
     with open(cls.__courses_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
       writer.writerow([new_course.course_id, new_course.course_name, new_course.course_credits, new_course.year, new_course.professor, new_course.students, new_course.grades])
 
   @classmethod
+  #just a structure of the class
   def save_employee(cls, new_employee: Professor):
     with open(cls.__employees_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)

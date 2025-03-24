@@ -18,19 +18,27 @@ class Student(Person):
     return f"{self.name} {self.surname} is at {self._year} year and has {self._ec} credits"
   
   def __random_student_id(self, given_student_id):
+    #it generates random student number within the given range
     if given_student_id == None:
+      #if it is a new student added by app, then the default student id is None, but
+      #if different then it is already in the database, that is why we pass the saved student number
       from Database import Database
+      #loading all students
       all_students = Database.load_students()
       while True:
-        new_id = rnd.randint(1000000, 9999999)
+        #generateing the number
+        new_generated_id = rnd.randint(1000000, 9999999)
         if all_students:
           for student in all_students:
-            if student.id == new_id:
+            # if someone has generated number then it redo the loop
+            if student.id == new_generated_id:
               continue
-          return new_id
+            #if nobody has generated number then it returns it as new student id
+          return new_generated_id
         else:
-          return new_id
+          return new_generated_id
     else:
+      #if student is already in database then pass his student number
       return given_student_id
 
   @property
@@ -50,6 +58,3 @@ class Student(Person):
   #The setter works like a method of the object 
   def year(self, new_year):
     self._year = new_year
-
-  def add_course_grade(self, course_name, grade):
-    pass
