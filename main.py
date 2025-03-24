@@ -51,13 +51,32 @@ class UniTrackApp:
   def help(self):
     print("List of commands:")
     print("[1] - Add student")
+    print("\n")
 
+  def add_student(self):
+    name = input("Enter student name: ")
+    surname = input("Enter student surname: ")
+    while True:
+      try:
+        age = int(input("Enter student age: "))
+        break
+      except Exception:
+         print("Invalid age: Age has to be a natural number")
+    while True:
+      try:
+        gender = input("Enter student gender (M/F): ")
+        break
+      except Exception as invalid_message:
+        print(invalid_message)
+    self.__uniTrack.add_student(name, surname, age, gender)
+    return "Student added successfully to the University"
+        
   def run(self):
     while True:
       self.help()
-      print("\n")
       command = input("Enter command: ")
       if command == "1":
         self.help()
+        self.add_student()
       else:
         print("Invalid command")
