@@ -51,7 +51,8 @@ class UniTrackApp:
   def help(self):
     print("List of commands:")
     print("[1] - Add student")
-    print("\n")
+    print("[9] - Exit the application")
+    print("")
 
   def add_student(self):
     name = input("Enter student name: ")
@@ -63,12 +64,12 @@ class UniTrackApp:
       except Exception:
          print("Invalid age: Age has to be a natural number")
     while True:
+      gender = input("Enter student gender (M/F): ")
       try:
-        gender = input("Enter student gender (M/F): ")
+        self.__uniTrack.add_student(name, surname, age, gender)
         break
-      except Exception as invalid_message:
-        print(invalid_message)
-    self.__uniTrack.add_student(name, surname, age, gender)
+      except NameError as invalid_gender:
+        print(invalid_gender)
     return "Student added successfully to the University"
         
   def run(self):
@@ -76,7 +77,13 @@ class UniTrackApp:
       self.help()
       command = input("Enter command: ")
       if command == "1":
-        self.help()
         self.add_student()
+      if command == "9":
+         print("Thank you for using UniTrack!")
+         break
       else:
         print("Invalid command")
+
+if __name__ == "__main__":
+  app = UniTrackApp()
+  app.run()
