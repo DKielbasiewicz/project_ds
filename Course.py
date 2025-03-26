@@ -1,7 +1,14 @@
 """
-TODO: write me 
+Course object stores:
+            course_id: str | string used to represent individual courses
+            course_name: str | name of the course
+            course_credits: int | amount of ec assigned to the course
+            year: int 
+            professor: Professor | Professor obj associated with the course
+            students: list[Student] | list of Student objects that are enlisted for the course
+            final_grades: list[Grade] | list of Grade objects that are associated with the course and enlisted students
 
-
+Course class depends on 3 classes, that is: Student class, Professor class and Grade class
 """
 from Student import Student
 from Professor import Professor
@@ -11,8 +18,8 @@ class Course:
     def __init__(self, course_id: str, course_name: str, course_credits: int,  year: int, professor: Professor, students: list[Student], grades: list[Grade]):
         self.__course_id = course_id            # str: id code for the course NOTE should be unique?
         self.__course_name = course_name          # str: name of the course
-        self.course_credits = course_credits    # int: ec of the course
-        self.year = year                        # int: year var *TODO specify how to use year var*
+        self.__course_credits = course_credits    # int: ec of the course
+        self._year = year                        # int: year var *TODO specify how to use year var*
         self._professor = professor             # Professor: object Professor assigned to the course
         self.__students = students              # list[Student]: list containing all the students enrolled for the course ***NOTE Only unique values
         self.__final_grades = grades            # list[Grade]: list containing all the final grades  ***NOTE Only unique values
@@ -52,4 +59,4 @@ class Course:
         self.__final_grades.append(new_grade) # append grade if no grade is present in the list
     
     def __str__(self) -> str: #string representation of Course obj
-        return f"{self.__course_name} (ID: {self.__course_id}), course taught by {self._professor.name}. \n[credits: {self.course_credits}, year: {self.year}, {len(self.__students)} students enlisted]"
+        return f"{self.__course_name} (ID: {self.__course_id}), course taught by {self._professor.name}. \n[credits: {self.__course_credits}, year: {self._year}, {len(self.__students)} students enlisted]"

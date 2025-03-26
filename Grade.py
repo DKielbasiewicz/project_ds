@@ -9,13 +9,13 @@ Grade object stores:
 
 class Grade:
     def __init__(self, grade: float, student, course):
-        self._grade = grade        # float: value of the grade received
-        self._student = student    # Student: student object assigned to the grade
-        self.course = course       # Course: course object assigned to the grade
+        self.__grade = grade        # float: value of the grade received
+        self.__student = student    # Student: student object assigned to the grade
+        self.__course = course       # Course: course object assigned to the grade
     
     @property
     def grade(self) -> float: # returns grade
-        return self._grade
+        return self.__grade
     
     @grade.setter
     def grade(self, new_grade: float) -> None: # changes grade
@@ -23,11 +23,11 @@ class Grade:
         if not (0 <= new_grade <= 10):
             raise ValueError('Grade has to be no smaller then 0 and no greater then 10') #incorrect grade value
         
-        self._grade = new_grade
+        self.__grade = new_grade
     
     @property
     def identify_student(self) -> str: # returns student_id from the Student obj
-        return self._student.id
+        return self.__student.id
     
     def __eq__(self, other_grade): #custom == operator, checks if the numeric value of the Grade object is matching
         if self.grade == other_grade.grade:
@@ -40,4 +40,4 @@ class Grade:
         return False
     
     def __str__(self) -> str: #string representation of Grade obj
-        return f"{self._student.name} received {self._grade} in {self.course.course_name}" 
+        return f"{self.__student.name} received {self.__grade} in {self.__course.course_name}" 

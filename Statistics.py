@@ -1,9 +1,31 @@
+"""
+UniversityStatistics is an utility class. 
+It's methods are used to graph University data. 
+NOTE Uses matplotlib.
+
+    avg_grade_course(chosen_course, plot_on: bool = True)
+        this method makes a 3 bar graph with minimal grade, average grade and maximal grade associated with chosen_course Course object
+        NOTE graph can be disabled by setting plot_on to False
+        
+        returns average grade 
+    
+    avg_grade_uni(cls, university, plot_on: bool = True)
+        this method puts all the average grades from all of the Course objects
+        *Gets average grade from avg_grade_course
+        NOTE graph can be disabled by setting plot_on to False
+        
+        returns average grade off all courses  
+    
+    
+"""
 import matplotlib.pyplot as plt
-#from matplotlib.ticker import MultipleLocator, FuncFormatter
 
 class UniversityStatistics:
+    def __init__(self):
+        raise Exception("UniversityStatistics cannot be represented by a variable")
+    
     @staticmethod
-    def avg_grade_course(chosen_course, plot_on = True): 
+    def avg_grade_course(chosen_course, plot_on: bool = True): 
         """
         Args:
             chosen_course (Course): Course obj
@@ -27,22 +49,25 @@ class UniversityStatistics:
         if plot_on:
             plt.bar([f'Lowest Grade: {min_}', f'Average Grade: {avg_}', f'Highest Grade: {max_}'],[min_, avg_, max_])
             plt.ylabel('Grade')
+            plt.ylim(0, 10)
             plt.title(chosen_course)
             plt.show()
         # return average
         return avg_
     
     @classmethod
-    def avg_grade_uni(cls, university): # Shows the overall statistics of all the courses
+    def avg_grade_uni(cls, university, plot_on: bool = True): # Shows the overall statistics of all the courses
         all_courses = university.available_courses # list of all the courses
         sum_ = [0] # the first number in the list of averages is the sum of all averages, look at the second line of for loop
         for course in all_courses:
             sum_.append(cls.avg_grade_course(course, False)) 
             sum_[0] += sum_[-1] # This is the sum of all averages
         #ploten machen
-        plt.plot([course.course_id for course in all_courses], sum_[1::], 'ro')
-        plt.ylabel('Average Grade')
-        plt.title("Graph of all courses' grades")
-        plt.show()
+        if plot_on:
+            plt.plot([course.course_id for course in all_courses], sum_[1::], 'ro')
+            plt.ylabel('Average Grade')
+            plt.ylim(0, 10)
+            plt.title("Graph of all courses' grades")
+            plt.show()
     
         return sum_[0]/len(sum_[1::]) # returns the average grade of the all averages
