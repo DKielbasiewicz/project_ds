@@ -5,10 +5,6 @@ Grade object stores:
             course: Course obj
     
     *NOTE* Only grade attribute can be manipulated
-    
-    TODO:
-    Relationships:
-        ...
 """
 
 class Grade:

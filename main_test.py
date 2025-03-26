@@ -16,11 +16,11 @@ u1 = University()
 u1.add_course(c1)
 
 def test_statistics_func1():
-    avg_ = u1.avg_grade_course(c1)
+    avg_ = UniversityStatistics.avg_grade_course(c1)
     
     assert (g1_s1.grade+g1_s2.grade)/2 == avg_, f"Wrong value"
     
 def test_statistics_func2():
-    avg_ = u1.avg_grade_uni()
+    avg_ = UniversityStatistics.avg_grade_uni(u1)
     
     assert True == (not False), f'It just works'

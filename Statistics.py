@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 #from matplotlib.ticker import MultipleLocator, FuncFormatter
 
 class UniversityStatistics:
-    def avg_grade_course(self, chosen_course, plot_on = True): 
+    @staticmethod
+    def avg_grade_course(chosen_course, plot_on = True): 
         """
         Args:
             chosen_course (Course): Course obj
@@ -30,12 +31,13 @@ class UniversityStatistics:
             plt.show()
         # return average
         return avg_
-        
-    def avg_grade_uni(self): # Shows the overall statistics of all the courses
-        all_courses = self.available_courses # list of all the courses
+    
+    @classmethod
+    def avg_grade_uni(cls, university): # Shows the overall statistics of all the courses
+        all_courses = university.available_courses # list of all the courses
         sum_ = [0] # the first number in the list of averages is the sum of all averages, look at the second line of for loop
         for course in all_courses:
-            sum_.append(self.avg_grade_course(course, False)) 
+            sum_.append(cls.avg_grade_course(course, False)) 
             sum_[0] += sum_[-1] # This is the sum of all averages
         #ploten machen
         plt.plot([course.course_id for course in all_courses], sum_[1::], 'ro')
