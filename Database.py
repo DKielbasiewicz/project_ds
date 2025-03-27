@@ -1,10 +1,12 @@
 import csv
 from Student import Student
 from Professor import Professor
+from Building import Building
 class Database:
   __students_file = "students.csv"
   __courses_file = "courses.csv"
   __employees_file = "employees.csv"
+  __buildings_file = "buildings.csv"
   __encoding_style = "utf-8"
 
   @classmethod
@@ -38,3 +40,9 @@ class Database:
     with open(cls.__employees_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
       writer.writerow([new_employee.name, new_employee.surname, new_employee.age, new_employee.gender, new_employee.taught_courses])
+
+  @classmethod
+  def save_building(cls, new_building: Building):
+    with open(cls.__buildings_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
+      writer = csv.writer(file)
+      writer.writerow([new_building.name, new_building.address, new_building.capacity])
