@@ -1,5 +1,5 @@
 from Person import Person
-import random as rnd
+from random import randint
 
 class Student(Person):
   def __init__(self, name, surname, age, gender, given_student_id: int = None):
@@ -17,6 +17,15 @@ class Student(Person):
   def __str__(self):
     return f"{self.name} {self.surname} is at {self._year} year and has {self._ec} credits"
   
+  def __eq__(self, another):
+    return self._ec == another.ec
+  
+  def __lt__(self, another):
+    return self._ec < another.ec
+  
+  def __gt__(self, another):
+    return self._ec > another.ec
+  
   def __random_student_id(self, given_student_id):
     #it generates random student number within the given range
     if given_student_id == None:
@@ -26,8 +35,8 @@ class Student(Person):
       #loading all students
       all_students = Database.load_students()
       while True:
-        #generateing the number
-        new_generated_id = rnd.randint(1000000, 9999999)
+        #generating the number
+        new_generated_id = randint(1000000, 9999999)
         if all_students:
           for student in all_students:
             # if someone has generated number then it redo the loop

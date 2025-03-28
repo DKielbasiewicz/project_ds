@@ -5,6 +5,7 @@ from Grade import Grade
 from Course import Course
 from Student import Student 
 from Professor import Professor 
+from GeneralWorker import GeneralWorker
 from Database import Database
 from Statistics import UniversityStatistics
 from Building import Building
@@ -13,7 +14,10 @@ class University():
   def __init__(self):
     self.__name = "UniTrack University"
     self.__available_courses = Database.load_course()
-    self.__employees = Database.load_professors()
+    #employees is a dictionary
+    #"Professors" : list[Professor]
+    #"General Workers" : list[GeneralWorker]
+    self.__employees = Database.load_employees()
     self.__buildings = []
     self.__students = Database.load_students()
         
@@ -66,13 +70,14 @@ class University():
     return self.__buildings
 
   def add_professor(self, prof_name, prof_surname, prof_age, prof_gender):
-    # add prof ID number NOTE essential for the application
-    if not self.__employees:
-      prof_id = 1
-    else:
-      prof_id = self.__employees[-1].id+1
-    
-    ...
+    new_professor = Professor(prof_name, prof_surname, prof_age, prof_gender)
+    self.__employees["Professors"].append(new_professor)
+    Database.save_employee(new_professor)
+
+  def add_general_worker(self, worker_name: str, worker_surname: str, worker_age: int, worker_gender: str, worker_job: str, worker_salary: int):
+    new_general_worker = GeneralWorker(worker_name, worker_surname, worker_age, worker_gender, worker_job, worker_salary)
+    self.__employees["General Workers"].append(new_general_worker)
+    Database.save_employee(new_general_worker)
   
   def add_student(self, student_name: str, student_surname: str, student_age: int, student_gender: str,):
     # making Student object of the given variables
@@ -93,16 +98,9 @@ class University():
       self.__buildings.append(new_building)
       return
     raise ValueError(" Two buildings at the same address won't work. ")
-    
-  def add_employee(self, new_employee: Professor): #adds an employee, i.e. an Professor obj to the self.__employees list
-    if not new_employee in self.__employees: # check if the obj is already in the list
-      self.__employee.append(new_employee) # if not append
-      return 
-    
-    raise ValueError("This person is already employed!") # else raise errno
-  
+      
   def __str__(self):
-      return f"{self.__name} is great"
+      return f"{self.__name} is great!"
 
     
 class UniTrackApp:
@@ -112,8 +110,8 @@ class UniTrackApp:
   def help(self):
     list_of_commands = """List of commands:\n
     [1] - Add student
-    [2] 
-    [3] 
+    [2] - Add Professor
+    [3] - Add General Worker
     [4] 
     [5] 
     [6] 
@@ -143,6 +141,66 @@ class UniTrackApp:
         print(invalid_gender)
     return "Student added successfully to the University\n"
   
+  def add_professor(self):
+    name = input("Enter professor name: ")
+    surname = input("Enter professor surname: ")
+    while True:
+      try:
+        age = int(input("Enter professor age: "))
+        break
+      except Exception:
+        print("Invalid age: Age has to be a natural number")
+    while True:
+      gender = input("Enter professor gender (M/F): ")
+      try:
+        # we try to add professor if it fails then it's gender string problem
+        # we give feedback and redo the loop
+        self.__uniTrack.add_professor(name, surname, age, gender)
+        break
+      except NameError as invalid_gender:
+        print(invalid_gender)
+    return "Professor added successfully to the University\n"
+  
+  def add_general_worker(self):
+    name = input("Enter worker name: ")
+    surname = input("Enter worker surname: ")
+    while True:
+      try:
+        age = int(input("Enter worker age: "))
+        break
+      except Exception:
+        print("Invalid age: Age has to be a natural number")
+    from Person import Person
+    while True:
+      gender = input("Enter worker gender (M/F): ")
+      try:
+        # we try to add professor if it fails then it's gender string problem
+        # we give feedback and redo the loop
+        Person(name, surname, age, gender)
+      except NameError as invalid_gender:
+        print(invalid_gender)
+      else:
+        break
+    while True:
+      job = input("Enter worker job title: ")
+      try:
+        if job.lower() == "professor":
+          raise NameError
+      except NameError:
+        print("This person cannot be a professor")
+      else:
+        break
+    while True:
+      try:
+        salary = int(input("Enter worker salary (positive integer): "))
+        if salary < 0:
+          raise Exception
+        break
+      except Exception:
+        print("Worker salary has to be positive integer")
+    self.__uniTrack.add_general_worker(name, surname, age, gender, job, salary)
+    return "Employee added succesfully to the University"
+
   def run_statistics(self):
     what_stat = """What would you like to display?
     [1] Entire University statistics
@@ -179,9 +237,12 @@ class UniTrackApp:
       command = input("Enter command: ")
       if command == "1":
         print(self.add_student())
+      if command == "2":
+        print(self.add_professor())
+      if command == "3":
+        print(self.add_general_worker())
       if command == '8':
         self.run_statistics()
-        
       if command == "9":
         print("Thank you for using UniTrack!")
         break

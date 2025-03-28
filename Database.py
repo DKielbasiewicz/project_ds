@@ -1,6 +1,7 @@
 import csv
 from Student import Student
 from Professor import Professor
+from GeneralWorker import GeneralWorker
 from Building import Building
 from Course import Course
 class Database:
@@ -57,23 +58,32 @@ class Database:
   
   @classmethod
   #just a structure of the class
-  def save_employee(cls, new_employee: Professor):
+  def save_employee(cls, new_employee: Professor | GeneralWorker):
     with open(cls.__employees_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
-      writer.writerow([new_employee.name, new_employee.surname, new_employee.age, new_employee.gender, new_employee.id])
+      if new_employee.role == "Professor":
+        writer.writerow([new_employee.name, new_employee.surname, new_employee.age, new_employee.gender, new_employee.id, new_employee.role])
+      else:
+        writer.writerow([new_employee.name, new_employee.surname, new_employee.age, new_employee.gender, new_employee.job, new_employee.salary, new_employee.id, new_employee.role])
 
+  @classmethod
+  def load_employees(cls):
+    professors = []
+    general_workers = []
+    with open(cls.__employees_file, mode="r", encoding=cls.__encoding_style) as file:
+      reader = csv.reader(file)
+      for row in reader:
+        if row[-1] == "Professor":
+          professor = Professor(row[0], row[1], row[2], row[3], row[4])
+          professors.append(professor)
+        elif row[-1] == "General Worker":
+          general_worker = GeneralWorker(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+          general_workers.append(general_worker)
+    employees = {"Professors" : professors, "General Workers" : general_workers}
+    return employees
+  
   @classmethod
   def save_building(cls, new_building: Building):
     with open(cls.__buildings_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
       writer.writerow([new_building.name, new_building.address, new_building.capacity])
-  
-  @classmethod
-  def load_professors(cls):
-    professors = []
-    with open(cls.__employees_file, mode="r", encoding=cls.__encoding_style) as file:
-      reader = csv.reader(file)
-      for row in reader:
-        prof = Professor(row[0], row[1], row[2], row[3], row[4])
-        professors.append(prof)
-    return professors
