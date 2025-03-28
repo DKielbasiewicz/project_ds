@@ -6,6 +6,7 @@ class Professor(Person):
     super().__init__(name, surname, age, gender)
     self.taught_courses = []
     self.__professor_id = self.__random_professor_id(given_professor_id)
+    self.__role = "Professor"
 
   def __str__(self):
     return f"{super().__str__()} and teaches {len(self.taught_courses)} courses"
@@ -37,3 +38,7 @@ class Professor(Person):
   @property
   def id(self):
     return self.__professor_id
+  
+  @property
+  def role(self):
+    return self.__role
