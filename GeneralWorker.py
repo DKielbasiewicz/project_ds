@@ -6,7 +6,7 @@ class GeneralWorker(Person):
         self.__job = job
         self.__salary = salary
         self.__role = "General Worker"
-        self.__worker_id = self.__random_worker_id()
+        self.__worker_id = self.__random_worker_id(given_worker_id)
     def __str__(self):
         return f"{self.name} {self.surname} is a {self.__job} and has {self.__salary} salary"
 
@@ -28,10 +28,11 @@ class GeneralWorker(Person):
             #if different then it is already in the database, that is why we pass the saved worker number
             from Database import Database
             #loading all employees
-            all_employees = Database.load_employees()
+            data_read = Database.load_employees()
+            all_employees = data_read["General Workers"]
             while True:
                 #generating the number
-                new_generated_id = randint(1000, 9999)
+                new_generated_id = randint(0, 999)
                 if all_employees:
                     for employee in all_employees:
                         # if someone has generated number then it redo the loop
