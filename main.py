@@ -27,6 +27,10 @@ class University():
     return self.__available_courses
 
   @property
+  def get_students(self):
+    return self.__students
+    
+  @property
   def employees(self):
     return self.__employees
   
@@ -78,11 +82,11 @@ class UniTrackApp:
 
   def help(self):
     list_of_commands = """List of commands:\n
-    [1] - Add Student
+    [1] - Add Student to the database
     [2] - Add Professor
     [3] - Add General Worker
     [4] - Add Course
-    [5] 
+    [5] - Enlist students to course
     [6] 
     [7] - Add Grades 
     [8] - Show University statistics
@@ -223,6 +227,56 @@ class UniTrackApp:
     except Exception as e:
         print(e)
 
+  def add_students_to_course(self):
+    students = self.__uniTrack.get_students
+    courses = self.__uniTrack.available_courses
+    if len(students) == 0:
+      return "There are no students in our database\nAdd students to the database"
+    if len(courses) == 0:
+      return "There are no courses in our database\nAdd courses to the database"
+    
+    print("Pick a course:")
+    for id_course, course in enumerate(courses):
+      print(f"[{id_course+1}] {course.course_id}")
+    
+    while True:
+      try:
+        picked_course_id = int(input("Enter command: "))-1
+        if picked_course_id not in range(len(courses)):
+          raise ValueError
+        break
+      except ValueError:
+        print("Invalid input, pick a course from the list")
+        
+    picked_course = courses[picked_course_id]
+    
+    print("Pick students from the list (enter individual reference numbers)")
+    for id_student, student in enumerate(students):
+      print(f"[{id_student+1}] {student.name} {student.id}")
+    
+    picked_students = []
+    while True:
+      pick = input("To quit enter q\nTo add more students, enter the number: ")
+      if pick == 'q':
+        break
+      try:
+        pick = int(pick)-1
+        if pick not in range(len(students)):
+          raise ValueError
+        picked_students.append(students[pick])
+      except ValueError:
+        print()
+
+    successful_enlistments = 0
+    for chosen_one in picked_students:
+      try:
+        picked_course.add_student(chosen_one)
+        successful_enlistments += 1
+      except Exception as e:
+        print(e)
+        
+    return f"Successfully added {successful_enlistments} students!"
+
   def add_grade(self):
     print("Pick to what course you want to add the grade")
     all_courses = self.__uniTrack.available_courses
@@ -322,6 +376,8 @@ class UniTrackApp:
         print(self.add_general_worker())
       if command == '4':
         self.add_course()
+      if command == '5':
+        print(self.add_students_to_course())
       if command == '7':
         self.add_grade()
       if command == '8':

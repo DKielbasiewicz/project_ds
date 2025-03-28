@@ -18,7 +18,7 @@ class Student(Person):
     return f"{self.name} {self.surname} is at {self._year} year and has {self._ec} credits"
   
   def __eq__(self, another):
-    return self._ec == another.ec
+    return self.id == another.id
   
   def __lt__(self, another):
     return self._ec < another.ec

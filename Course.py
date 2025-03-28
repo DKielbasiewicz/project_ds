@@ -51,7 +51,7 @@ class Course:
         return self.__students
     
     def add_student(self, new_student: Student) -> None:
-        if new_student.id in self.__students: # if student is enrolled for the course, i.e. is in __students
+        if new_student in self.__students: # if student is enrolled for the course, i.e. is in __students
             raise Exception('Student already enlisted')
         
         self.__students.append(new_student) # else, append Student obj to the list 
