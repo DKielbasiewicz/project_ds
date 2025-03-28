@@ -20,38 +20,6 @@ class University():
     self.__employees = Database.load_employees()
     self.__buildings = []
     self.__students = Database.load_students()
-        
-    """courses_temp = self.__available_courses
-    courses_proper = []
-    
-    for course_temp in courses_temp:
-      
-      grades_temp = list(zip(course_temp[-2],course_temp[-1]))
-      students_temp = course_temp[-3]
-      prof_temp = course_temp[-4]
-      print(course_temp)
-      students_proper = []
-      grades_proper = []
-      
-      for student in self.__students:
-        if student.id in students_temp:
-          students_proper.append(student)
-
-          for grade in grades_temp:
-            if grade[1] == student.id:
-              grades_proper.append((grade[0],student))
-              
-          
-      for prof in self.__employees:
-        if prof.id == prof_temp:
-          prof_temp = prof
-          
-      course_proper = Course(course_temp[0],course_temp[1],course_temp[2],course_temp[3], prof_temp, students_proper, [])
-      
-      for grade_proper in grades_proper:
-        course_proper.add_grade(grade_proper[0], grade_proper[1], course_proper)
-        
-    self.__available_courses = courses_proper"""
           
   @property
   def available_courses(self):
