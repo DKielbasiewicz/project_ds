@@ -34,6 +34,22 @@ class Course:
     def course_id(self):
         return self.__course_id
     
+    @property
+    def professor(self):
+        return self._professor
+    
+    @property
+    def course_credits(self):
+        return self.__course_credits
+    
+    @property
+    def year(self):
+        return self._year
+    
+    @property
+    def all_students(self):
+        return self.__students
+    
     def add_student(self, new_student: Student) -> None:
         if new_student.id in self.__students: # if student is enrolled for the course, i.e. is in __students
             raise Exception('Student already enlisted')

@@ -8,10 +8,10 @@ Grade object stores:
 """
 
 class Grade:
-    def __init__(self, grade: float, student, course):
+    def __init__(self, grade: float, student_id, course_id):
         self.__grade = grade        # float: value of the grade received
-        self.__student = student    # Student: student object assigned to the grade
-        self.__course = course       # Course: course object assigned to the grade
+        self.__student = student_id    # Student: student object assigned to the grade
+        self.__course_id = course_id      # Course: course object assigned to the grade
     
     @property
     def grade(self) -> float: # returns grade
@@ -24,6 +24,10 @@ class Grade:
             raise ValueError('Grade has to be no smaller then 0 and no greater then 10') #incorrect grade value
         
         self.__grade = new_grade
+
+    @property
+    def course_id(self):
+        return self.__course_id
     
     @property
     def identify_student(self) -> str: # returns student_id
@@ -50,4 +54,4 @@ class Grade:
         return False
     
     def __str__(self) -> str: #string representation of Grade obj
-        return f"{self.__student} received {self.__grade} in {self.__course}" 
+        return f"{self.__student} received {self.__grade} in {self.__course_id}" 

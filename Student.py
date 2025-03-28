@@ -2,7 +2,7 @@ from Person import Person
 from random import randint
 
 class Student(Person):
-  def __init__(self, name, surname, age, gender, given_student_id: int = None):
+  def __init__(self, name: str, surname: str, age: int, gender: str, given_student_id: int = None):
     super().__init__(name, surname, age, gender)
     """I created ec, year, filed_courses and passed_courses as private
     variables because they should not be accessed directly and 
