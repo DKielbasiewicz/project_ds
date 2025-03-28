@@ -5,6 +5,7 @@ from Grade import Grade
 from Course import Course
 from Student import Student 
 from Professor import Professor 
+from GeneralWorker import GeneralWorker
 from Database import Database
 from Statistics import UniversityStatistics
 from Building import Building
@@ -13,7 +14,10 @@ class University():
   def __init__(self):
     self.__name = "UniTrack University"
     self.__available_courses = Database.load_course()
-    self.__employees = Database.load_professors()
+    #employees is a dictionary
+    #"Professors" : list[Professor]
+    #"General Workers" : list[GeneralWorker]
+    self.__employees = Database.load_employees()
     self.__buildings = []
     self.__students = Database.load_students()
         
@@ -66,13 +70,14 @@ class University():
     return self.__buildings
 
   def add_professor(self, prof_name, prof_surname, prof_age, prof_gender):
-    # add prof ID number NOTE essential for the application
-    if not self.__employees:
-      prof_id = 1
-    else:
-      prof_id = self.__employees[-1].id+1
-    
-    ...
+    new_professor = Professor(prof_name, prof_surname, prof_age, prof_gender)
+    self.__employees["Professors"].append(new_professor)
+    Database.save_employee(new_professor)
+
+  def add_general_worker(self, worker_name: str, worker_surname: str, worker_age: int, worker_gender: str, worker_job: str, worker_salary: int):
+    new_general_worker = GeneralWorker(worker_name, worker_surname, worker_age, worker_gender, worker_job, worker_salary)
+    self.__employees["General Workers"].append(new_general_worker)
+    Database.save_employee(new_general_worker)
   
   def add_student(self, student_name: str, student_surname: str, student_age: int, student_gender: str,):
     # making Student object of the given variables
@@ -112,8 +117,8 @@ class UniTrackApp:
   def help(self):
     list_of_commands = """List of commands:\n
     [1] - Add student
-    [2] 
-    [3] 
+    [2] - Add Professor
+    [3] - Add General Worker
     [4] 
     [5] 
     [6] 
@@ -143,6 +148,26 @@ class UniTrackApp:
         print(invalid_gender)
     return "Student added successfully to the University\n"
   
+  def add_professor(self):
+    name = input("Enter professor name: ")
+    surname = input("Enter professor surname: ")
+    while True:
+      try:
+        age = int(input("Enter professor age: "))
+        break
+      except Exception:
+        print("Invalid age: Age has to be a natural number")
+    while True:
+      gender = input("Enter professor gender (M/F): ")
+      try:
+        # we try to add professor if it fails then it's gender string problem
+        # we give feedback and redo the loop
+        self.__uniTrack.add_professor(name, surname, age, gender)
+        break
+      except NameError as invalid_gender:
+        print(invalid_gender)
+    return "Professor added successfully to the University\n"
+
   def run_statistics(self):
     what_stat = """What would you like to display?
     [1] Entire University statistics
@@ -179,9 +204,10 @@ class UniTrackApp:
       command = input("Enter command: ")
       if command == "1":
         print(self.add_student())
+      if command == "2":
+        print(self.add_professor())
       if command == '8':
         self.run_statistics()
-        
       if command == "9":
         print("Thank you for using UniTrack!")
         break
