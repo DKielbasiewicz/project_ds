@@ -18,6 +18,10 @@ g2_s2 = Grade(8.7,s2,c1)
 g3_s1 = Grade(9.9,s1,c1)
 g3_s2 = Grade(8.2,s2,c1)
 
+b1 = Building('Comenius1', 'Poznan1', 'com1', [c1,c2,c3], [p1])
+b2 = Building('Comenius2', 'Poznan2', 'com2', [c1,c2,c3], [p1])
+b3 = Building('Comenius3', 'Poznan3', 'com3', [c1,c2,c3], [p1])
+
 c1.add_grade(g1_s1)
 c1.add_grade(g1_s2)
 
@@ -31,6 +35,10 @@ u1 = University()
 u1.add_course(c1)
 u1.add_course(c2)
 u1.add_course(c3)
+
+u1.add_building(b1)
+u1.add_building(b2)
+u1.add_building(b3)
 
 
 def test_statistics_func1():

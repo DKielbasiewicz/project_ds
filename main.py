@@ -7,12 +7,14 @@ from Student import Student
 from Professor import Professor 
 from Database import Database
 from Statistics import UniversityStatistics
+from Building import Building
 
 class University():
   def __init__(self):
     self.__name = "UniTrack University"
     self.__available_courses = []
     self.__employees = []  
+    self.__buildings = []
     self.__students = Database.load_students()
       
   @property
@@ -27,6 +29,10 @@ class University():
   def name(self):
     return self.__name
   
+  @property
+  def buildings(self):
+    return self.__buildings
+
   def add_student(self, student_name: str, student_surname: str, student_age: int, student_gender: str,):
     # making Student object of the given variables
     new_student = Student(student_name, student_surname, student_age, student_gender)
@@ -40,6 +46,12 @@ class University():
       self.__available_courses.append(new_course)
       return
     raise ValueError(" How to handle adding the same course? ") # <--- !!!
+  
+  def add_building(self, new_building: Building):
+    if not new_building in self.__buildings:
+      self.__buildings.append(new_building)
+      return
+    raise ValueError(" Two buildings at the same address won't work. ")
     
   def add_employee(self, new_employee: Professor): #adds an employee, i.e. an Professor obj to the self.__employees list
     if not new_employee in self.__employees: # check if the obj is already in the list
