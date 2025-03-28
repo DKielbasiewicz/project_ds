@@ -98,16 +98,9 @@ class University():
       self.__buildings.append(new_building)
       return
     raise ValueError(" Two buildings at the same address won't work. ")
-    
-  def add_employee(self, new_employee: Professor): #adds an employee, i.e. an Professor obj to the self.__employees list
-    if not new_employee in self.__employees: # check if the obj is already in the list
-      self.__employee.append(new_employee) # if not append
-      return 
-    
-    raise ValueError("This person is already employed!") # else raise errno
-  
+      
   def __str__(self):
-      return f"{self.__name} is great"
+      return f"{self.__name} is great!"
 
     
 class UniTrackApp:
@@ -167,6 +160,46 @@ class UniTrackApp:
       except NameError as invalid_gender:
         print(invalid_gender)
     return "Professor added successfully to the University\n"
+  
+  def add_general_worker(self):
+    name = input("Enter worker name: ")
+    surname = input("Enter worker surname: ")
+    while True:
+      try:
+        age = int(input("Enter worker age: "))
+        break
+      except Exception:
+        print("Invalid age: Age has to be a natural number")
+    from Person import Person
+    while True:
+      gender = input("Enter worker gender (M/F): ")
+      try:
+        # we try to add professor if it fails then it's gender string problem
+        # we give feedback and redo the loop
+        Person(name, surname, age, gender)
+      except NameError as invalid_gender:
+        print(invalid_gender)
+      else:
+        break
+    while True:
+      job = input("Enter worker job title: ")
+      try:
+        if job.lower() == "professor":
+          raise NameError
+      except NameError:
+        print("This person cannot be a professor")
+      else:
+        break
+    while True:
+      try:
+        salary = int(input("Enter worker salary (positive integer): "))
+        if salary < 0:
+          raise Exception
+        break
+      except Exception:
+        print("Worker salary has to be positive integer")
+    self.__uniTrack.add_general_worker(name, surname, age, gender, job, salary)
+    return "Employee added succesfully to the University"
 
   def run_statistics(self):
     what_stat = """What would you like to display?
@@ -206,6 +239,8 @@ class UniTrackApp:
         print(self.add_student())
       if command == "2":
         print(self.add_professor())
+      if command == "3":
+        print(self.add_general_worker())
       if command == '8':
         self.run_statistics()
       if command == "9":
