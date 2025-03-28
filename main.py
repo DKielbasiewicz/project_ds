@@ -226,7 +226,12 @@ class UniTrackApp:
     
     command_course = -1
     while not command_course in range(len(all_courses)):
-      command_course = int(input("Enter command: "))-1
+      command_course = input("Enter command: ")
+      if not command_course.isdigit():
+        print("Please select one of the courses")
+        command_course = -1
+      else:
+        command_course = int(command_course)-1
       
     UniversityStatistics.avg_grade_course(all_courses[command_course])
     return
