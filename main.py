@@ -59,14 +59,15 @@ class University():
   def add_course(self, new_course: Course):
     if not new_course in self.__available_courses:
       self.__available_courses.append(new_course)
-      return
+      Database.save_course(new_course)
     raise ValueError(" This Course already exist in our database") 
   
   def add_building(self, new_building: Building):
-    if not new_building in self.__buildings:
+    if new_building not in self.__buildings:
       self.__buildings.append(new_building)
-      return
-    raise ValueError(" Two buildings at the same address won't work. ")
+      Database.save_building(new_building)
+    else:
+      raise ValueError("Two buildings at the same address won't work. ")
       
   def __str__(self):
       return f"{self.__name} is great!"
@@ -82,8 +83,8 @@ class UniTrackApp:
     [2] - Add Professor
     [3] - Add General Worker
     [4] - Add Course
-    [5] 
-    [6] 
+    [5] - Add Student to course
+    [6] - Add Building
     [7] - Add Grades 
     [8] - Show University statistics
     [9] - Exit the application
@@ -168,13 +169,12 @@ class UniTrackApp:
       except Exception:
         print("Worker salary has to be positive integer")
     self.__uniTrack.add_general_worker(name, surname, age, gender, job, salary)
-    return "Employee added succesfully to the University"
+    return "Employee added successfully to the University"
 
   def add_course(self):
     professors = self.__uniTrack.employees["Professors"]
     if len(professors) == 0:
-      print("There are no professors in our database!\nFirst add professor to the university")
-      return 
+      return f"There are no professors in our database!\nFirst add professor to the university"
     
     print("Adding new course")
     
@@ -210,18 +210,35 @@ class UniTrackApp:
         if chosen_prof not in range(len(professors)):
           raise ValueError
         selected_prof = professors[chosen_prof]
-        
       except ValueError:
         print("Invalid input, pick a professor from the list")
     
     new_course = Course(course_id,course_name,course_credits,course_year,selected_prof,[],[])
-    
+
     try:
         self.__uniTrack.add_course(new_course)
         print(f"Course '{course_name}' added successfully.")
         print("Now you may enlist students to the course")
     except Exception as e:
         print(e)
+
+  def add_building(self):
+    name = input("Enter building name: ")
+    while True:
+      address = input("Enter building address: ")
+      try:
+        for building in self.__uniTrack.buildings:
+          if address == building.address:
+            raise ValueError
+        break
+      except ValueError:
+        print("There is already registered building at the given address")      
+    short_name = input("Enter building short name: ")
+    courses = []
+    workers = []
+    new_building = Building(name, address, short_name, courses, workers)
+    self.__uniTrack.add_building(new_building)
+    return f"Building succesfully added to the University"
 
   def add_grade(self):
     print("Pick to what course you want to add the grade")
@@ -322,6 +339,8 @@ class UniTrackApp:
         print(self.add_general_worker())
       if command == '4':
         self.add_course()
+      if command == "6":
+        print(self.add_building())
       if command == '7':
         self.add_grade()
       if command == '8':

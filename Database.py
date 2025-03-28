@@ -97,4 +97,34 @@ class Database:
   def save_building(cls, new_building: Building):
     with open(cls.__buildings_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
-      writer.writerow([new_building.name, new_building.address, new_building.capacity])
+      courses_ids = []
+      for course in new_building.courses:
+        courses_ids.append(course.course_id)
+      workers_info = []
+      for worker in new_building.workers:
+        worker_info = [worker.name, worker.surname, worker.age, worker.gender, worker.job, worker.salary, worker.id]
+        workers_info.append(worker_info)
+      writer.writerow([new_building.name, new_building.address, new_building.short_name, courses_ids, workers_info])
+    
+  @classmethod
+  #if there is no courses and workers in the building then it cannot load buildings, no time anymore
+  def load_buildings(cls):
+    import ast
+    buildings = []
+    all_courses = Database.load_courses()
+    with open(cls.__buildings_file, mode="r", encoding=cls.__encoding_style) as file:
+      reader = csv.reader(file)
+      for row in reader:
+        courses_id_from_file = ast.literal_eval(row[3]) if row[3] else []
+        all_workers_info = ast.literal_eval(row[4]) if row[4] else []
+        courses = []
+        for ids in courses_id_from_file:
+          for course in all_courses:
+            if ids == course.course_id:
+              courses.append(course)
+              break
+        for worker in all_workers_info:
+          worker = GeneralWorker(worker[0], worker[1], worker[2], worker[3], worker[4], worker[5], worker[6])
+        building = Building(row[0], row[1], row[2], courses, all_workers_info)
+        buildings.append(building)
+    return buildings
