@@ -21,6 +21,10 @@ NOTE Uses matplotlib.
 import matplotlib.pyplot as plt
 
 class UniversityStatistics:
+    #NOTE class attributes for maximum and minimum grade
+    max_grade = 10  # maximum grade
+    min_grade = 0   # minimum grade
+    
     def __init__(self):
         raise Exception("UniversityStatistics cannot be represented by a variable")
     
@@ -34,7 +38,7 @@ class UniversityStatistics:
         Returns:
             average grade: float
         """
-        sum_,min_,max_ = 0,10,0
+        sum_, min_, max_ = 0, UniversityStatistics.max_grade, UniversityStatistics.min_grade
         final_grades = chosen_course.get_grades
 
         for final_grade in final_grades:
@@ -69,5 +73,11 @@ class UniversityStatistics:
             plt.ylim(0, 10)
             plt.title("Graph of all courses' grades")
             plt.show()
-    
-        return sum_[0]/len(sum_[1::]) # returns the average grade of the all averages
+            
+        try:
+            avg_ = sum_[0]/len(sum_[1::])
+        except ZeroDivisionError:
+            print("There are no courses in our database")
+            return
+        
+        return avg_ # returns the average grade of the all averages

@@ -16,10 +16,10 @@ from Grade import Grade
 
 class Course:
     def __init__(self, course_id: str, course_name: str, course_credits: int,  year: int, professor: Professor, students: list[Student], grades: list[Grade]):
-        self.__course_id = course_id            # str: id code for the course NOTE should be unique?
+        self.__course_id = course_id            # str: id code for the course 
         self.__course_name = course_name          # str: name of the course
         self.__course_credits = course_credits    # int: ec of the course
-        self._year = year                        # int: year var *TODO specify how to use year var*
+        self._year = year                        # int: year var
         self._professor = professor             # Professor: object Professor assigned to the course
         self.__students = students              # list[Student]: list containing all the students enrolled for the course ***NOTE Only unique values
         self.__final_grades = grades            # list[Grade]: list containing all the final grades  ***NOTE Only unique values
@@ -36,14 +36,14 @@ class Course:
     
     def add_student(self, new_student: Student) -> None:
         if new_student.id in self.__students: # if student is enrolled for the course, i.e. is in __students
-            raise Exception('') # TODO change error handling
+            raise Exception('Student already enlisted')
         
         self.__students.append(new_student) # else, append Student obj to the list 
     
     def grade(self, picked_student: Student): # returns Grade obj
         # get a grade of chosen student
         for grade in self.__final_grades: # go over all grades
-            if grade.identify_student == picked_student.id: # TODO optimize the comparison NOTE may not work in current state
+            if grade.identify_student == picked_student.id:
                 return grade # return student grade
         
         print(f"{picked_student.name} doesn't have any grades yet") # return Nonetype when picked_student has no grade assigned

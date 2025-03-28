@@ -2,6 +2,7 @@ import csv
 from Student import Student
 from Professor import Professor
 from Building import Building
+from Course import Course
 class Database:
   __students_file = "students.csv"
   __courses_file = "courses.csv"
@@ -32,17 +33,47 @@ class Database:
   def save_course(cls, new_course):
     with open(cls.__courses_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
-      writer.writerow([new_course.course_id, new_course.course_name, new_course.course_credits, new_course.year, new_course.professor, new_course.students, new_course.grades])
-
+      
+      students_temp = [student.id for student in new_course.students]
+      students = ','.join(map(str, students_temp))
+      grades_num_temp = [grade.grade for grade in new_course.grades]
+      grades_num = ','.join(map(str, grades_num_temp))
+      grades_id_temp = [grade.identify_student for grade in new_course.grades]
+      grades_id = ','.join(map(str, grades_id_temp))
+      
+      writer.writerow([new_course.course_id, new_course.course_name, new_course.course_credits, new_course.year, new_course.professor.id, students, grades_num, grades_id])
+      
+  @classmethod #TODO
+  def load_course(cls):
+    courses = []
+    with open(cls.__courses_file, mode="r", encoding=cls.__encoding_style) as file:
+      reader = csv.reader(file)
+      
+      for row in reader:
+        print(row[-2])
+        courses.append([row[0],row[1],row[2],row[3],row[4],row[5],row[6], row[7]])
+        
+    return courses
+  
   @classmethod
   #just a structure of the class
   def save_employee(cls, new_employee: Professor):
     with open(cls.__employees_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
-      writer.writerow([new_employee.name, new_employee.surname, new_employee.age, new_employee.gender, new_employee.taught_courses])
+      writer.writerow([new_employee.name, new_employee.surname, new_employee.age, new_employee.gender, new_employee.id])
 
   @classmethod
   def save_building(cls, new_building: Building):
     with open(cls.__buildings_file, mode="a", newline="", encoding=cls.__encoding_style) as file:
       writer = csv.writer(file)
       writer.writerow([new_building.name, new_building.address, new_building.capacity])
+  
+  @classmethod
+  def load_professors(cls):
+    professors = []
+    with open(cls.__employees_file, mode="r", encoding=cls.__encoding_style) as file:
+      reader = csv.reader(file)
+      for row in reader:
+        prof = Professor(row[0], row[1], row[2], row[3], row[4])
+        professors.append(prof)
+    return professors

@@ -5,8 +5,8 @@ class Student(Person):
   def __init__(self, name, surname, age, gender, given_student_id: int = None):
     super().__init__(name, surname, age, gender)
     """I created ec, year, filed_courses and passed_courses as private
-    variables because they should not be accessed directly and we
-    should keept only within the class"""
+    variables because they should not be accessed directly and 
+    should be kept only within the class"""
     self._ec = 0
     self._year = 1
     self.__studentid = self.__random_student_id(given_student_id)
