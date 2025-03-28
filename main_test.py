@@ -1,6 +1,6 @@
 from main import *
 
-p1 = Professor('Alber', "Smart", 41, 'm')
+p1 = Professor('Alber', "Smart", 41, 'm',1)
 s1 = Student('Mary', "W", 12, 'f', 's222')
 s2 = Student('Marian', "M", 11, 'm', 's232')
 

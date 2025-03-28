@@ -12,11 +12,43 @@ from Building import Building
 class University():
   def __init__(self):
     self.__name = "UniTrack University"
-    self.__available_courses = []
-    self.__employees = []  
+    self.__available_courses = Database.load_course()
+    self.__employees = Database.load_professors()
     self.__buildings = []
     self.__students = Database.load_students()
+        
+    """courses_temp = self.__available_courses
+    courses_proper = []
+    
+    for course_temp in courses_temp:
       
+      grades_temp = list(zip(course_temp[-2],course_temp[-1]))
+      students_temp = course_temp[-3]
+      prof_temp = course_temp[-4]
+      print(course_temp)
+      students_proper = []
+      grades_proper = []
+      
+      for student in self.__students:
+        if student.id in students_temp:
+          students_proper.append(student)
+
+          for grade in grades_temp:
+            if grade[1] == student.id:
+              grades_proper.append((grade[0],student))
+              
+          
+      for prof in self.__employees:
+        if prof.id == prof_temp:
+          prof_temp = prof
+          
+      course_proper = Course(course_temp[0],course_temp[1],course_temp[2],course_temp[3], prof_temp, students_proper, [])
+      
+      for grade_proper in grades_proper:
+        course_proper.add_grade(grade_proper[0], grade_proper[1], course_proper)
+        
+    self.__available_courses = courses_proper"""
+          
   @property
   def available_courses(self):
     return self.__available_courses
@@ -33,6 +65,15 @@ class University():
   def buildings(self):
     return self.__buildings
 
+  def add_professor(self, prof_name, prof_surname, prof_age, prof_gender):
+    # add prof ID number NOTE essential for the application
+    if not self.__employees:
+      prof_id = 1
+    else:
+      prof_id = self.__employees[-1].id+1
+    
+    ...
+  
   def add_student(self, student_name: str, student_surname: str, student_age: int, student_gender: str,):
     # making Student object of the given variables
     new_student = Student(student_name, student_surname, student_age, student_gender)
@@ -45,7 +86,7 @@ class University():
     if not new_course in self.__available_courses:
       self.__available_courses.append(new_course)
       return
-    raise ValueError(" How to handle adding the same course? ") # <--- !!!
+    raise ValueError(" This Course already exist in our database") 
   
   def add_building(self, new_building: Building):
     if not new_building in self.__buildings:
@@ -59,16 +100,9 @@ class University():
       return 
     
     raise ValueError("This person is already employed!") # else raise errno
-    
-  # NOTE Thou shalt decide the fate of all Comparison Operators
-  #def __eq__(self, another_uni) -> bool:
-  #    if self.avg_grade_uni() == another_uni.avg_grade_uni():
-  #        return True
-  #    return False
-  #def __lt__(self, another_uni)
   
   def __str__(self):
-      return f"{self.__name} is great, not sure what to include here, open for ideas" # <----- TODO
+      return f"{self.__name} is great"
 
     
 class UniTrackApp:
@@ -76,10 +110,18 @@ class UniTrackApp:
     self.__uniTrack = University()
 
   def help(self):
-    print("List of commands:")
-    print("[1] - Add student")
-    print("[9] - Exit the application")
-    print("")
+    list_of_commands = """List of commands:\n
+    [1] - Add student
+    [2] 
+    [3] 
+    [4] 
+    [5] 
+    [6] 
+    [7] 
+    [8] - Show University statistics
+    [9] - Exit the application
+    """
+    print(list_of_commands)
 
   def add_student(self):
     name = input("Enter student name: ")
@@ -89,7 +131,7 @@ class UniTrackApp:
         age = int(input("Enter student age: "))
         break
       except Exception:
-         print("Invalid age: Age has to be a natural number")
+        print("Invalid age: Age has to be a natural number")
     while True:
       gender = input("Enter student gender (M/F): ")
       try:
@@ -100,13 +142,46 @@ class UniTrackApp:
       except NameError as invalid_gender:
         print(invalid_gender)
     return "Student added successfully to the University\n"
+  
+  def run_statistics(self):
+    what_stat = """What would you like to display?
+    [1] Entire University statistics
+    [2] Individual course statistics
+    """
+    while True:
+      print(what_stat)
+      command_stat = input("Enter command: ")
+      
+      if command_stat == '1' or command_stat == '2':
+        break
+      else:
+        print("Invalid command")
         
+    if command_stat == '1':
+      UniversityStatistics.avg_grade_uni(self.__uniTrack)
+      return 
+    # second case, aka. pick a course and print its stat
+    all_courses = self.__uniTrack.available_courses
+    print('Which course would you like to evaluate?')
+    for id_course,course in enumerate(all_courses):
+      print(f'[{id_course+1}] {course.name} ({course.course_id})')
+    
+    command_course = -1
+    while not command_course in range(len(all_courses)):
+      command_course = int(input("Enter command: "))-1
+      
+    UniversityStatistics.avg_grade_course(all_courses[command_course])
+    return
+    
   def run(self):
     while True:
       self.help()
       command = input("Enter command: ")
       if command == "1":
         print(self.add_student())
+      if command == '8':
+        self.run_statistics()
+        
       if command == "9":
         print("Thank you for using UniTrack!")
         break
