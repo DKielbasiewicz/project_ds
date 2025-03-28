@@ -2,7 +2,7 @@ from Person import Person
 from random import randint
 
 class Professor(Person):
-  def __init__(self, name, surname, age, gender, given_professor_id: int = None):
+  def __init__(self, name: str, surname: str, age: int, gender: str, given_professor_id: int = None):
     super().__init__(name, surname, age, gender)
     self.taught_courses = []
     self.__professor_id = self.__random_professor_id(given_professor_id)

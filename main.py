@@ -13,7 +13,7 @@ from Building import Building
 class University():
   def __init__(self):
     self.__name = "UniTrack University"
-    self.__available_courses = Database.load_course()
+    self.__available_courses = Database.load_courses()
     #employees is a dictionary
     #"Professors" : list[Professor]
     #"General Workers" : list[GeneralWorker]
