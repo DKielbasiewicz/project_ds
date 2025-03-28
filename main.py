@@ -393,6 +393,10 @@ class UniTrackApp:
         print(self.add_general_worker())
       if command == '4':
         self.add_course()
+      if command == '5':
+        self.add_students_to_course()
+      if command == '6':
+        print(self.add_building())
       if command == '7':
         self.add_grade()
       if command == '8':
