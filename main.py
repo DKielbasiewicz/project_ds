@@ -14,6 +14,7 @@ class University():
   def __init__(self):
     self.__name = "UniTrack University"
     self.__available_courses = Database.load_courses()
+    #self.__available_courses = [Course('SOW', 'Prog', 3,1, Professor('Alber', "Smart", 41, 'm',1), [Student('Mary', "W", 12, 'f', 222)],[])]   NOTE debug 
     #employees is a dictionary
     #"Professors" : list[Professor]
     #"General Workers" : list[GeneralWorker]
@@ -83,7 +84,7 @@ class UniTrackApp:
     [4] 
     [5] 
     [6] 
-    [7] 
+    [7] - Add Grades 
     [8] - Show University statistics
     [9] - Exit the application
     """
@@ -169,6 +170,58 @@ class UniTrackApp:
     self.__uniTrack.add_general_worker(name, surname, age, gender, job, salary)
     return "Employee added succesfully to the University"
 
+  def add_grade(self):
+    print("Pick to what course you want to add the grade")
+    all_courses = self.__uniTrack.available_courses
+    if len(all_courses) == 0:
+      print('There are no courses in our database')
+      return
+    for id_course, course in enumerate(all_courses):
+      print(f"[{id_course+1}] {course.name}")
+    
+    command_course = -1
+    while command_course not in range(len(all_courses)):
+      command_course = input("Enter command: ")
+      if not command_course.isdigit():
+        print("Please select one of the courses")
+        command_course = -1
+      else:
+        command_course = int(command_course)-1
+    
+    picked_course = all_courses[command_course]
+    students_from_course = picked_course.all_students
+    
+    if len(students_from_course) == 0:
+      print("There are no students enlisted for the course\nFirst add students to the course")
+      return 
+    
+    while True:
+      print("Pick a student to assign a grade\nPress q to quite")
+      for id_students, student in enumerate(students_from_course):
+        print(f"[{id_students+1}] {student.name} student id:{student.id}")
+      
+      command_student = input("Enter command: ")
+      if not command_student.isdigit():
+        if command_student == 'q':
+          return
+        
+        print('Invalid input')
+        continue
+      
+      else: 
+        command_student = int(command_student)-1
+        
+      if command_student in range(len(students_from_course)):
+        new_grade_val = input("Please enter a grade: ")
+        try:
+          new_grade_val = float(new_grade_val)
+          
+        except ValueError:
+          print("Invalid grade")
+          continue
+      new_grade = Grade(new_grade_val, students_from_course[command_student].id, picked_course.course_id)
+      self.__uniTrack.available_courses[command_course].add_grade(new_grade)
+
   def run_statistics(self):
     what_stat = """What would you like to display?
     [1] Entire University statistics
@@ -193,7 +246,7 @@ class UniTrackApp:
       print(f'[{id_course+1}] {course.name} ({course.course_id})')
     
     command_course = -1
-    while not command_course in range(len(all_courses)):
+    while command_course not in range(len(all_courses)):
       command_course = input("Enter command: ")
       if not command_course.isdigit():
         print("Please select one of the courses")
@@ -214,6 +267,8 @@ class UniTrackApp:
         print(self.add_professor())
       if command == "3":
         print(self.add_general_worker())
+      if command == '7':
+        self.add_grade()
       if command == '8':
         self.run_statistics()
       if command == "9":

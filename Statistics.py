@@ -46,7 +46,7 @@ class UniversityStatistics:
             # sum and maxima
             sum_ += grade_temp
             if grade_temp > max_: max_ = grade_temp
-            elif grade_temp < min_: min_ = grade_temp
+            if grade_temp < min_: min_ = grade_temp
         #average of all grades
         avg_ = sum_/len(final_grades)
         # if plot then do plot
