@@ -1,8 +1,9 @@
 from main import *
 
 p1 = Professor('Alber', "Smart", 41, 'm',1)
-s1 = Student('Mary', "W", 12, 'f', 's222')
-s2 = Student('Marian', "M", 11, 'm', 's232')
+s1 = Student('Mary', "W", 12, 'f', 222)
+s2 = Student('Marian', "M", 11, 'm', 232)
+g1 = GeneralWorker("Alberto", "Martinez", "31", "m", "Service", 100, 2000)
 
 c1 = Course('SOW', 'Programming', 3, 1, p1, [s1,s2],[])
 c2 = Course('SOW-K', 'Programming', 3, 1, p1, [s1,s2],[])
