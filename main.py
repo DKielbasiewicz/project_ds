@@ -14,7 +14,7 @@ class University():
   def __init__(self):
     self.__name = "UniTrack University"
     self.__available_courses = Database.load_courses()
-    #self.__available_courses = [Course('SOW', 'Prog', 3,1, Professor('Alber', "Smart", 41, 'm',1), [Student('Mary', "W", 12, 'f', 222)],[])]   NOTE debug 
+    #self.__available_courses = [Course('SOW', 'Prog', 3,1, Professor('Alber', "Smart", 41, 'm',1), [Student('Mary', "W", 12, 'f', 222)],[])]   #NOTE debug 
     #employees is a dictionary
     #"Professors" : list[Professor]
     #"General Workers" : list[GeneralWorker]
@@ -78,10 +78,10 @@ class UniTrackApp:
 
   def help(self):
     list_of_commands = """List of commands:\n
-    [1] - Add student
+    [1] - Add Student
     [2] - Add Professor
     [3] - Add General Worker
-    [4] 
+    [4] - Add Course
     [5] 
     [6] 
     [7] - Add Grades 
@@ -169,6 +169,59 @@ class UniTrackApp:
         print("Worker salary has to be positive integer")
     self.__uniTrack.add_general_worker(name, surname, age, gender, job, salary)
     return "Employee added succesfully to the University"
+
+  def add_course(self):
+    professors = self.__uniTrack.employees["Professors"]
+    if len(professors) == 0:
+      print("There are no professors in our database!\nFirst add professor to the university")
+      return 
+    
+    print("Adding new course")
+    
+    course_id = input("Enter course id: ")
+    course_name = input("Enter course name: ")
+    
+    while True:
+      try:
+        course_credits = int(input("Enter course credits: "))
+        if course_credits < 1:
+          raise ValueError
+        break
+      except ValueError:
+        print("Invalid input, EC's must be greater then zero")
+    
+    while True:
+      try:
+        course_year = int(input("Enter intended year of the course: "))
+        if course_year < 1:
+          raise ValueError
+        break
+      except ValueError:
+        print("Invalid input, year has to be greater then 0")
+        
+    print("Select a professor for this course:")
+    for id_prof, prof in enumerate(professors):
+        print(f"[{id_prof + 1}] {prof.name} {prof.surname}")
+    
+    selected_prof = False
+    while not selected_prof:
+      try:
+        chosen_prof = int(input("Enter professor number from the list: "))-1
+        if chosen_prof not in range(len(professors)):
+          raise ValueError
+        selected_prof = professors[chosen_prof]
+        
+      except ValueError:
+        print("Invalid input, pick a professor from the list")
+    
+    new_course = Course(course_id,course_name,course_credits,course_year,selected_prof,[],[])
+    
+    try:
+        self.__uniTrack.add_course(new_course)
+        print(f"Course '{course_name}' added successfully.")
+        print("Now you may enlist students to the course")
+    except Exception as e:
+        print(e)
 
   def add_grade(self):
     print("Pick to what course you want to add the grade")
@@ -267,6 +320,8 @@ class UniTrackApp:
         print(self.add_professor())
       if command == "3":
         print(self.add_general_worker())
+      if command == '4':
+        self.add_course()
       if command == '7':
         self.add_grade()
       if command == '8':
