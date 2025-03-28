@@ -1,8 +1,8 @@
 """
 Grade object stores:
             grade: float
-            student: Student obj
-            course: Course obj
+            student: Student id
+            course: Course id
     
     *NOTE* Only grade attribute can be manipulated
 """
@@ -29,8 +29,18 @@ class Grade:
     def identify_student(self) -> str: # returns student_id
         return self.__student
     
-    def __eq__(self, other_grade): #custom == operator, checks if the numeric value of the Grade object is matching
+    def __eq__(self, other_grade): 
         if self.grade == other_grade.grade:
+            return True
+        return False
+    
+    def __lt__(self, other_grade): 
+        if self.grade < other_grade.grade:
+            return True
+        return False
+    
+    def __gt__(self, other_grade): 
+        if self.grade > other_grade.grade:
             return True
         return False
     
