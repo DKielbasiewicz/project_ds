@@ -81,6 +81,9 @@ class UniTrackApp:
   def __init__(self):
     self.__uniTrack = University()
 
+  def __str__(self):
+    return "Welcome in our UniTrackApp"
+
   def help(self):
     list_of_commands = """List of commands:\n
     [1] - Add Student to the database
